@@ -32,15 +32,44 @@ while True:
     pos1 = syntax_list[0]
     if pos1 == 'q':
         break
+    elif IndexError ==True:
+        print("Error. Please try again.")
     elif pos1=='/r':
         dpos = int(player_roll.rfind('d'))
         spacepos = player_roll.rfind(' ')
-        rollstring = str(syntax_list[1])
+        rollstring = ""
+        endofstring = 0
+        numofdicetoroll = 0
+        typeofdicetoroll = 0
+        try:
+            rollstring = str(syntax_list[1])
+        except IndexError:
+            print("There was an error, please try again.")
+        else:
+            rollstring = str(syntax_list[1])
         dpos1= int(rollstring.rfind('d'))
-        endofstring = int(section_loc[1])
 
-        numofdicetoroll = int(rollstring[0:dpos1])
-        typeofdicetoroll = int(rollstring[dpos1+1:endofstring])
+        try:
+            endofstring = int(section_loc[1])
+        except IndexError:
+            print("There was an error, please try again.")
+        else:
+            endofstring = int(section_loc[1])
+
+        try:
+            numofdicetoroll = int(rollstring[0:dpos1])
+        except ValueError:
+            print("There was an error, please try again.")
+        else:
+            numofdicetoroll = int(rollstring[0:dpos1])
+
+        try:
+            typeofdicetoroll = int(rollstring[dpos1+1:endofstring])
+        except ValueError:
+            print("There was an error, please try again.")
+        else:
+            typeofdicetoroll = int(rollstring[dpos1+1:endofstring])
+        
 
         rolls = numofdicetoroll
         results = []
