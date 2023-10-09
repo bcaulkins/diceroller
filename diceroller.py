@@ -14,6 +14,7 @@ diceDict = {
 
 #syntax will be like /r 1d6k +4
 print("Let's Roll")
+print("type --help or --h for a list of commands.")
 
 while True:
     syntax_list = []
@@ -32,8 +33,14 @@ while True:
     pos1 = syntax_list[0]
     if pos1 == 'q':
         break
-    elif IndexError ==True:
-        print("Error. Please try again.")
+    elif pos1 == 'c' or pos1 == 'commands' or pos1 == '--help' or pos1 == '--h':
+        #Prints commands to use.
+        print("Here are some helpful commands on how to use DiceRoller.")
+        print("/R, /ROLL      - Every roll needs to start with either /R or /ROLL.")
+        print("A              - Adding an 'A' to the end of the dice and roll will roll with Advantage, meaning it will roll 2 dice of the type you specify and take the higest of those 2 dice.")
+        print("D              - Adding a 'D' to the end of the dice and roll will roll with Disadvantage, meaning it will roll 2 dice of the type you specified and take the lowest of those 2 dice.")
+        print("KH, KH(number) - Adding KH(number) to the end of the dice roll command will keep the higest (number) of dice. Example: /r 6d6kh(5) will keep the 5 higest rolls. The default is 1.")
+        print("KL, KL(number) - Adding KL(number) to the end of the dice roll command will keep the lowest (number) of dice. Example: /r 6d6kh(5) will keep the 5 lowest rolls. The default is 1.")
     elif pos1=='/r':
         dpos = int(player_roll.rfind('d'))
         spacepos = player_roll.rfind(' ')
@@ -48,7 +55,7 @@ while True:
         else:
             rollstring = str(syntax_list[1])
         dpos1= int(rollstring.rfind('d'))
-
+#clean up error handling - should only print error once.
         try:
             endofstring = int(section_loc[1])
         except IndexError:
