@@ -16,6 +16,7 @@ diceDict = {
 print("Let's Roll")
 print("type --help or --h for a list of commands.")
 
+
 while True:
     syntax_list = []
     section_loc = []
@@ -36,18 +37,22 @@ while True:
     elif pos1 == 'c' or pos1 == 'commands' or pos1 == '--help' or pos1 == '--h':
         #Prints commands to use.
         print("Here are some helpful commands on how to use DiceRoller.")
+        print("/r number of dice,type of dice, optional modifiers")
         print("/R, /ROLL      - Every roll needs to start with either /R or /ROLL.")
-        print("A              - Adding an 'A' to the end of the dice and roll will roll with Advantage, meaning it will roll 2 dice of the type you specify and take the higest of those 2 dice.")
-        print("D              - Adding a 'D' to the end of the dice and roll will roll with Disadvantage, meaning it will roll 2 dice of the type you specified and take the lowest of those 2 dice.")
-        print("KH, KH(number) - Adding KH(number) to the end of the dice roll command will keep the higest (number) of dice. Example: /r 6d6kh(5) will keep the 5 higest rolls. The default is 1.")
-        print("KL, KL(number) - Adding KL(number) to the end of the dice roll command will keep the lowest (number) of dice. Example: /r 6d6kh(5) will keep the 5 lowest rolls. The default is 1.")
-    elif pos1=='/r':
+        print("KH, KH(number) - Adding KH(number) to the end of the dice roll command will keep the higest (number) of dice. Example: /r 6d6 kh(5) will keep the 5 higest rolls. The default is 1.")
+        print("KL, KL(number) - Adding KL(number) to the end of the dice roll command will keep the lowest (number) of dice. Example: /r 6d6 kh(5) will keep the 5 lowest rolls. The default is 1.")
+    elif (pos1=='/r') and (player_roll[player_roll.rfind('kh'):]=='kh'):
         dpos = int(player_roll.rfind('d'))
+        kpos = int(player_roll.rfind('k'))
+        
         spacepos = player_roll.rfind(' ')
+
         rollstring = ""
         endofstring = 0
         numofdicetoroll = 0
         typeofdicetoroll = 0
+
+        #clean up error handling - should only print error once.
         try:
             rollstring = str(syntax_list[1])
         except IndexError:
@@ -55,7 +60,7 @@ while True:
         else:
             rollstring = str(syntax_list[1])
         dpos1= int(rollstring.rfind('d'))
-#clean up error handling - should only print error once.
+
         try:
             endofstring = int(section_loc[1])
         except IndexError:
@@ -76,7 +81,104 @@ while True:
             print("There was an error, please try again.")
         else:
             typeofdicetoroll = int(rollstring[dpos1+1:endofstring])
+
+        rolls = numofdicetoroll
+        results = []
+        while rolls != 0:
+            results.append(random.randint(1,typeofdicetoroll))
+            rolls = rolls-1
+        results.sort(reverse=True)
+        print(results[0])
+        #print(player_roll)
+    elif (pos1=='/r') and (player_roll[player_roll.rfind('kl'):]=='kl'):
+        dpos = int(player_roll.rfind('d'))
+        kpos = int(player_roll.rfind('k'))
         
+        spacepos = player_roll.rfind(' ')
+
+        rollstring = ""
+        endofstring = 0
+        numofdicetoroll = 0
+        typeofdicetoroll = 0
+
+        #clean up error handling - should only print error once.
+        try:
+            rollstring = str(syntax_list[1])
+        except IndexError:
+            print("There was an error, please try again.")
+        else:
+            rollstring = str(syntax_list[1])
+        dpos1= int(rollstring.rfind('d'))
+
+        try:
+            endofstring = int(section_loc[1])
+        except IndexError:
+            print("There was an error, please try again.")
+        else:
+            endofstring = int(section_loc[1])
+
+        try:
+            numofdicetoroll = int(rollstring[0:dpos1])
+        except ValueError:
+            print("There was an error, please try again.")
+        else:
+            numofdicetoroll = int(rollstring[0:dpos1])
+
+        try:
+            typeofdicetoroll = int(rollstring[dpos1+1:endofstring])
+        except ValueError:
+            print("There was an error, please try again.")
+        else:
+            typeofdicetoroll = int(rollstring[dpos1+1:endofstring])
+
+        rolls = numofdicetoroll
+        results = []
+        while rolls != 0:
+            results.append(random.randint(1,typeofdicetoroll))
+            rolls = rolls-1
+        results.sort()
+        print(results[0])
+        #print(player_roll)
+    elif pos1== '/r':
+        dpos = int(player_roll.rfind('d'))
+        kpos = int(player_roll.rfind('k'))
+        
+        spacepos = player_roll.rfind(' ')
+        
+        rollstring = ""
+        endofstring = 0
+        numofdicetoroll = 0
+        typeofdicetoroll = 0
+
+        #clean up error handling - should only print error once.
+        try:
+            rollstring = str(syntax_list[1])
+        except IndexError:
+            print("There was an error, please try again.")
+        else:
+            rollstring = str(syntax_list[1])
+        dpos1= int(rollstring.rfind('d'))
+
+        try:
+            endofstring = int(section_loc[1])
+        except IndexError:
+            print("There was an error, please try again.")
+        else:
+            endofstring = int(section_loc[1])
+
+        try:
+            numofdicetoroll = int(rollstring[0:dpos1])
+        except ValueError:
+            print("There was an error, please try again.")
+        else:
+            numofdicetoroll = int(rollstring[0:dpos1])
+
+        try:
+            typeofdicetoroll = int(rollstring[dpos1+1:endofstring])
+        except ValueError:
+            print("There was an error, please try again.")
+        else:
+            typeofdicetoroll = int(rollstring[dpos1+1:endofstring]) 
 
         rolls = numofdicetoroll
         results = []
@@ -84,6 +186,6 @@ while True:
             results.append(random.randint(1,typeofdicetoroll))
             rolls = rolls-1
         print(*results)
-        print(player_roll)
+        #print(player_roll)
     elif pos1 !='/r':
         print("Please enter a valid command.")
